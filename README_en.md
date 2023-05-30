@@ -22,7 +22,7 @@ Applications involving the following technologies:
 
 ## Books
 
-- 📚 [eBooks](docs/source/index.md)
+- 📚 [eBooks](https://aesopica.readthedocs.io/en/latest/index.html)
 
 ## Demo
 
