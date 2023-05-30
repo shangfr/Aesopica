@@ -1,0 +1,5 @@
+myst-parser
+sphinx-design
+furo
+linkify-it-py
+sphinx-favicon
