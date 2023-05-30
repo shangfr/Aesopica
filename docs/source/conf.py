@@ -75,6 +75,11 @@ myst_enable_extensions = [
 ]
 
 favicons = [
-    "https://picsum.photos/16/16",
-    "https://picsum.photos/32/32",
+    {"href": "favicon_io/favicon.ico"},  # => use `_static/icon.svg`
+    {"href": "favicon_io/favicon-16x16.png"},
+    {"href": "favicon_io/favicon-32x32.png"},
+    {
+        "rel": "apple-touch-icon",
+        "href": "favicon_io/apple-touch-icon.png",
+    },
 ]
