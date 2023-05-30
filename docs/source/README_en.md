@@ -2,7 +2,7 @@
 
 ------------------------------------------------------------------------------------------
 
-# Aesopica
+# About
 
 Aesop's fables embody truths in daily life that are not perceived by us through short fable stories (mainly animal stories, but also some other life stories).
 
