@@ -4,7 +4,7 @@ Created on Wed May 31 15:38:04 2023
 
 @author: shangfr
 """
-
+import os
 import openai
 import streamlit as st
 from streamlit_chat import message
@@ -14,7 +14,8 @@ from vecdb import load_vectordb
 st.set_page_config(page_title="Aesopica", page_icon=":robot_face:")
 st.markdown("<h1 style='text-align: center;'>📚 Aesopica - Chat with Aesop</h1>", unsafe_allow_html=True)
 
-openai.api_key = st.secrets['api_key']
+os.environ["OPENAI_API_KEY"] = st.secrets['api_key']
+
 
 # Initialise session state variables
 if 'generated' not in st.session_state:
