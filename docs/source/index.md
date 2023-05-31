@@ -48,9 +48,9 @@ fables/index.md
 Get Started
 ```
 
-```{button-ref} [streamlit]
-:ref-type: doc
-:color: secondary
+```{button-link} https://shangfr-aesopica-app-xr2547.streamlit.app/
+:color: primary
+:outline:
 :class: sd-rounded-pill
 
 Online Chat
