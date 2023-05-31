@@ -47,6 +47,15 @@ fables/index.md
 
 Get Started
 ```
+
+```{button-ref} [streamlit]
+:ref-type: doc
+:color: secondary
+:class: sd-rounded-pill
+
+Online Chat
+```
+
 ````
 
 :::
@@ -159,3 +168,5 @@ fables/其他.md
 README.md
 README_en.md
 ```
+
+[streamlit]: https://shangfr-aesopica-app-xr2547.streamlit.app/
