@@ -1,5 +1,10 @@
+furo
 myst-parser
 sphinx-design
-furo
-linkify-it-py
 sphinx-favicon
+linkify-it-py
+
+
+streamlit
+streamlit_chat
+langchain
