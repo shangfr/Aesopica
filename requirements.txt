@@ -4,7 +4,7 @@ sphinx-design
 sphinx-favicon
 linkify-it-py
 
-
+openai
 streamlit
 streamlit_chat
 langchain

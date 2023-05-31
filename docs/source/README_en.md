@@ -1,4 +1,4 @@
-**English**🌎 | [简体中文🀄](./README_en.md)
+**English**🌎 | [简体中文🀄](./README.md)
 
 ------------------------------------------------------------------------------------------
 
@@ -19,6 +19,10 @@ Applications involving the following technologies:
 - **Text to video** : Used to generate video content;
 
 - **Digital Human**: Used for synthesizing story anchors and integrating and broadcasting the above content;
+
+## QA
+
+- 📚 [Chat with Aesop](https://shangfr-aesopica-app-xr2547.streamlit.app/)
 
 ## Books
 

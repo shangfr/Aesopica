@@ -15,6 +15,10 @@
 - **文本转视频**：用于生成视频内容；TXT2VIDEO
 - **数字人**：用于合成故事主播，对以上内容进行整合播报；META HUMAN
 
+## 在线问答
+
+- 📚 [Chat with Aesop](https://shangfr-aesopica-app-xr2547.streamlit.app/)
+
 ## 在线书籍
 
 - 📚 [eBooks](https://aesopica.readthedocs.io/en/latest/index.html)
