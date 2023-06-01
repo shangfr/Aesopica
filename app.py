@@ -11,8 +11,19 @@ from streamlit_chat import message
 from vecdb import load_vectordb
 
 # Setting page title and header
-st.set_page_config(page_title="Aesopica", page_icon=":robot_face:")
-st.markdown("<h1 style='text-align: center;'>📚 Aesopica - Chat with Aesop</h1>", unsafe_allow_html=True)
+st.set_page_config(
+    page_title="Aesopica",
+    page_icon="📚",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'Get Help': 'https://github.com/shangfr/shangfr.github.io',
+        'Report a bug': "https://github.com/shangfr/shangfr.github.io",
+        'About': "# FollowAI. Simple example of usage of streamlit and FastAPI for ML model serving."
+    }
+)
+
+st.markdown("<h1 style='text-align: center;'>📚 Chat With Aesop</h1>", unsafe_allow_html=True)
 
 os.environ["OPENAI_API_KEY"] = st.secrets['api_key']
 
@@ -36,11 +47,14 @@ if 'total_cost' not in st.session_state:
     st.session_state['total_cost'] = 0.0
 
 # Sidebar - let user choose model, show total cost of current conversation, and let user clear the current conversation
-st.sidebar.title("Mode")
-model_name = st.sidebar.radio("Choose a model:", ("ask-Aesop","eBooks" ))
+st.sidebar.write(
+    '<span style="font-size: 78px; line-height: 1">🐱</span>',
+    unsafe_allow_html=True,
+)
+model_name = st.sidebar.radio("Choose a model:", ("ChatBot","ReadBook" ))
 counter_placeholder = st.sidebar.empty()
-counter_placeholder.write(f"Total cost of this conversation: ${st.session_state['total_cost']:.5f}")
-clear_button = st.sidebar.button("清空 - Clear Conversation", key="clear")
+counter_placeholder.caption(f"Total cost of this conversation: ${st.session_state['total_cost']:.5f}")
+clear_button = st.sidebar.button("清空 - Clear", key="clear")
 
 
 # reset everything
@@ -83,7 +97,7 @@ def generate_response(prompt,model):
     st.session_state['messages'].append({"role": "user", "content": prompt})
 
     # Map model names to OpenAI model IDs
-    if model_name == "ask-Aesop":
+    if model_name == "ChatBot":
         model = "gpt-3.5-turbo"
         with st.spinner('Wait for ChatGPT...'):
             completion = openai.ChatCompletion.create(
@@ -100,7 +114,7 @@ def generate_response(prompt,model):
         return response, total_tokens, prompt_tokens, completion_tokens
 
     else:
-        
+        response = response.replace('\n','\n- ')
         st.session_state['messages'].append({"role": "assistant", "content": response})
         return response, 0, 0, 0
 # container for chat history
@@ -134,6 +148,6 @@ if st.session_state['generated']:
         for i in range(len(st.session_state['generated'])):
             message(st.session_state["past"][i], is_user=True, key=str(i) + '_user')
             message(st.session_state["generated"][i], key=str(i))
-            st.write(
+            st.caption(
                 f"Model used: {st.session_state['model_name'][i]}; Number of tokens: {st.session_state['total_tokens'][i]}; Cost: ${st.session_state['cost'][i]:.5f}")
-            counter_placeholder.write(f"Total cost of this conversation: ${st.session_state['total_cost']:.5f}")
+            counter_placeholder.caption(f"Total cost of this conversation: ${st.session_state['total_cost']:.5f}")
