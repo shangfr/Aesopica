@@ -48,6 +48,11 @@ def save_file(filename, content):
         f.write(content)
 
 
+chat_url = "<p align='right'>[😺 不明白？问问伊索吧。](https://shangfr-aesopica-app-xr2547.streamlit.app/)</p>"
+chat_url_cn = "<p align='right'>[😺 Not sure? Ask Aesop.](https://shangfr-aesopica-app-xr2547.streamlit.app/)</p>"
+
+
+
 grouped = df.groupby('TOC')
 
 for name, group in grouped:
@@ -57,26 +62,24 @@ for name, group in grouped:
         url = f"http://quantile.shangfr.site/fables/audio{r['ID']}.mp3"
         url_cn = f"http://quantile.shangfr.site/fables/audio{r['ID']}_cn.mp3"
         
-        
-        moral = "```{admonition} **Moral**\n:class: tip\n"+f"{r['Moral']}\n\n<audio src='{url}' preload='none' controls loop>你的浏览器不支持 audio 标签。</audio>\n\n```"
-        moral_cn =  "```{admonition} **寓意**\n:class: tip\n"+f"{r['Moral_CN']}\n\n<audio src='{url_cn}' preload='none' controls loop>你的浏览器不支持 audio 标签。</audio>\n\n```" 
-    
+
+
+        moral = "```{admonition} **Moral**\n:class: tip\n"+f"> {r['Moral']}  {chat_url_cn}\n\n```"
+        moral_cn =  "```{admonition} **寓意**\n:class: tip\n"+f"> {r['Moral_CN']}  {chat_url}\n\n```" 
 
         doc = f"{r['Fable']}\n\n{moral}\n\n"
         doc_cn = f"{r['Fable_CN']}\n\n{moral_cn}\n\n"
         
         fables = f"## {r['Title_CN']}\n\n"+'''
 ::::{tab-set}
-
 :::{tab-item} 中文
-'''+doc_cn+'''
+'''+doc_cn+f"👇 听寓言故事\n\n<audio src='{url_cn}'  style='width: 100%' preload='none' controls>你的浏览器不支持 audio 标签。</audio>"+ ''' 
 :::
-    
 :::{tab-item} English
-'''+f"## {r['Title']}\n\n"+doc+'''
+'''+f"## {r['Title']}\n\n"+doc+f"👇 Listen to this fable\n\n<audio src='{url}'  style='width: 100%' preload='none' controls>Your browser does not support the audio element.</audio>"+ ''' 
 :::
-
 ::::
+    
 '''   
     
         ebook += fables

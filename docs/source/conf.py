@@ -59,6 +59,7 @@ html_static_path = ['_static']
 
 myst_enable_extensions = [
     "amsmath",
+    "attrs_block",
     "attrs_inline",
     "colon_fence",
     "deflist",
