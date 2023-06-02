@@ -48,8 +48,8 @@ def save_file(filename, content):
         f.write(content)
 
 
-chat_url = "<p align='right'>[😺 不明白？问问伊索吧。](https://shangfr-aesopica-app-xr2547.streamlit.app/)</p>"
-chat_url_cn = "<p align='right'>[😺 Not sure? Ask Aesop.](https://shangfr-aesopica-app-xr2547.streamlit.app/)</p>"
+chat_url = "<p align='right'>[😺 不明白？问问伊索吧。](//shangfr-aesopica-app-xr2547.streamlit.app/)</p>"
+chat_url_cn = "<p align='right'>[😺 Not sure? Ask Aesop.](//shangfr-aesopica-app-xr2547.streamlit.app/)</p>"
 
 
 
@@ -59,8 +59,8 @@ for name, group in grouped:
     ebook = f'# {name}篇\n\n'
 
     for i, r in group.iterrows():
-        url = f"http://quantile.shangfr.site/fables/audio{r['ID']}.mp3"
-        url_cn = f"http://quantile.shangfr.site/fables/audio{r['ID']}_cn.mp3"
+        url = f"//quantile.shangfr.site/fables/audio{r['ID']}.mp3"
+        url_cn = f"//quantile.shangfr.site/fables/audio{r['ID']}_cn.mp3"
         
 
 
