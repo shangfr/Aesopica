@@ -51,7 +51,7 @@ st.sidebar.write(
     '<span style="font-size: 78px; line-height: 1">🐱</span>',
     unsafe_allow_html=True,
 )
-model_name = st.sidebar.radio("Choose a model:", ("ChatBot","ReadBook" ))
+model_name = st.sidebar.radio("Choose a model:", ("Chat","Reading"))
 counter_placeholder = st.sidebar.empty()
 counter_placeholder.caption(f"Total cost of this conversation: ${st.session_state['total_cost']:.5f}")
 clear_button = st.sidebar.button("清空 - Clear", key="clear")
@@ -97,7 +97,7 @@ def generate_response(prompt,model):
     st.session_state['messages'].append({"role": "user", "content": prompt})
 
     # Map model names to OpenAI model IDs
-    if model_name == "ChatBot":
+    if model_name == "Chat":
         model = "gpt-3.5-turbo"
         with st.spinner('Wait for ChatGPT...'):
             completion = openai.ChatCompletion.create(
