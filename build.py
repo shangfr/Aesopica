@@ -59,13 +59,13 @@ for name, group in grouped:
     ebook = f'# {name}篇\n\n'
 
     for i, r in group.iterrows():
-        url = f"//quantile.shangfr.site/fables/audio{r['ID']}.mp3"
-        url_cn = f"//quantile.shangfr.site/fables/audio{r['ID']}_cn.mp3"
+        url = f"http://quantile.shangfr.site/fables/audio{r['ID']}.mp3"
+        url_cn = f"http://quantile.shangfr.site/fables/audio{r['ID']}_cn.mp3"
         
 
 
-        moral = "```{admonition} **Moral**\n:class: tip\n"+f"> {r['Moral']}  {chat_url_cn}\n\n```"
-        moral_cn =  "```{admonition} **寓意**\n:class: tip\n"+f"> {r['Moral_CN']}  {chat_url}\n\n```" 
+        moral = "```{admonition} **Moral**\n:class: tip\n"+f"> {r['Moral']}  {chat_url_cn}\n\n👇 Listen to this fable\n\n<audio src='{url}'  style='width: 100%' preload='none' controls>Your browser does not support the audio element.</audio>\n\n```"
+        moral_cn =  "```{admonition} **寓意**\n:class: tip\n"+f"> {r['Moral_CN']}  {chat_url}\n\n👇 听寓言故事\n\n<audio src='{url_cn}'  style='width: 100%' preload='none' controls>你的浏览器不支持 audio 标签。</audio>\n\n```" 
 
         doc = f"{r['Fable']}\n\n{moral}\n\n"
         doc_cn = f"{r['Fable_CN']}\n\n{moral_cn}\n\n"
@@ -73,10 +73,10 @@ for name, group in grouped:
         fables = f"## {r['Title_CN']}\n\n"+'''
 ::::{tab-set}
 :::{tab-item} 中文
-'''+doc_cn+f"👇 听寓言故事\n\n<audio src='{url_cn}'  style='width: 100%' preload='none' controls>你的浏览器不支持 audio 标签。</audio>"+ ''' 
+'''+doc_cn+''' 
 :::
 :::{tab-item} English
-'''+f"## {r['Title']}\n\n"+doc+f"👇 Listen to this fable\n\n<audio src='{url}'  style='width: 100%' preload='none' controls>Your browser does not support the audio element.</audio>"+ ''' 
+'''+f"## {r['Title']}\n\n"+doc+ ''' 
 :::
 ::::
     
