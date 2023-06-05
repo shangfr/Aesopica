@@ -48,8 +48,8 @@ def save_file(filename, content):
         f.write(content)
 
 
-chat_url = "<p align='right'>[😺 不明白？问问伊索吧。](//shangfr-aesopica-app-xr2547.streamlit.app/)</p>"
-chat_url_cn = "<p align='right'>[😺 Not sure? Ask Aesop.](//shangfr-aesopica-app-xr2547.streamlit.app/)</p>"
+chat_url = "<p align='right'>[😺 不明白？问问伊索吧。](https://shangfr-aesopica-app-xr2547.streamlit.app/)</p>"
+chat_url_cn = "<p align='right'>[😺 Not sure? Ask Aesop.](https://shangfr-aesopica-app-xr2547.streamlit.app/)</p>"
 
 
 
