@@ -8,7 +8,7 @@ Created on Fri May 26 15:11:41 2023
 import pandas as pd
 
 df = pd.read_csv('data_csv/books_all.csv')
-df.to_csv('data_csv/books_all.csv',index=False)
+#df.to_csv('data_csv/books_all.csv',index=False)
 
 '''
 tle = df['Title_CN']
@@ -59,8 +59,8 @@ for name, group in grouped:
     ebook = f'# {name}篇\n\n'
 
     for i, r in group.iterrows():
-        url = f"http://quantile.shangfr.site/fables/audio{r['ID']}.mp3"
-        url_cn = f"http://quantile.shangfr.site/fables/audio{r['ID']}_cn.mp3"
+        url = f"https://quantile.shangfr.site/fables/audio{r['ID']}.mp3"
+        url_cn = f"https://quantile.shangfr.site/fables/audio{r['ID']}_cn.mp3"
         
 
 
