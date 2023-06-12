@@ -11,7 +11,7 @@
 涉及以下技术的应用：
 - **文本翻译**：用于将英文寓言故事翻译成各国语言；ChatGPT
 - **文本转语音**：用于生成音频内容；TTS
-- **文本转图片**：用于生成插图内容；MidJourney
+- **文本转图片**：用于生成插图内容；MidJourney `To use ChatGPT as a prompt generator for Midjourney`
 - **文本转视频**：用于生成视频内容；TXT2VIDEO
 - **数字人**：用于合成故事主播，对以上内容进行整合播报；META HUMAN
 

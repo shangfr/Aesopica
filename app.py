@@ -6,6 +6,7 @@ Created on Wed May 31 15:38:04 2023
 """
 import os
 import openai
+import requests
 import streamlit as st
 from streamlit_chat import message
 from vecdb import load_vectordb
@@ -26,7 +27,6 @@ st.set_page_config(
 st.markdown("<h1 style='text-align: center;'>📚 Chat With Aesop</h1>", unsafe_allow_html=True)
 
 os.environ["OPENAI_API_KEY"] = st.secrets['api_key']
-
 
 # Initialise session state variables
 if 'generated' not in st.session_state:
@@ -114,9 +114,11 @@ def generate_response(prompt,model):
         return response, total_tokens, prompt_tokens, completion_tokens
 
     else:
-        response = response.replace('\n','\n- ')
+        response = response.replace('_CN','')
         st.session_state['messages'].append({"role": "assistant", "content": response})
         return response, 0, 0, 0
+    
+
 # container for chat history
 response_container = st.container()
 # container for text box
@@ -126,8 +128,9 @@ with container:
     with st.form(key='my_form', clear_on_submit=True):
         user_input = st.text_area("You:", key='input', height=100)
         submit_button = st.form_submit_button(label='Send')
-
+        
     if submit_button and user_input:
+
         output, total_tokens, prompt_tokens, completion_tokens = generate_response(user_input,model_name)
         st.session_state['past'].append(user_input)
         st.session_state['generated'].append(output)
