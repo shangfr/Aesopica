@@ -78,49 +78,48 @@ df = get_fable()
 
 option = st.sidebar.selectbox('文生图',('生成', '查看'))
 
-match option:
-    case '查看':
-        data_df = pd.DataFrame(st.session_state['text2img']['info'])
-        
-        st.data_editor(
-            data_df,
-            column_config={
-                "url": st.column_config.ImageColumn(
-                    "Preview Image", help="Streamlit app preview screenshots"
-                )
-            },
-            hide_index=True,
-        )
+if option == '查看':
+    data_df = pd.DataFrame(st.session_state['text2img']['info'])
+    
+    st.data_editor(
+        data_df,
+        column_config={
+            "url": st.column_config.ImageColumn(
+                "Preview Image", help="Streamlit app preview screenshots"
+            )
+        },
+        hide_index=True,
+    )
 
 
-    case '生成':
+elif option == '生成':
 
-        col0,col1 = st.sidebar.columns(2)
-        number = col0.number_input('寓言选择：', 0, df.shape[0])
-        qlt = col1.selectbox('生成质量',('一般', '差', '好'))
-        
-        fable = df['Fable'][number]
-        st.markdown(f"{fable}")
-        
-        prompt = get_prompt(fable)
-        st.caption(prompt)
-        
-        img_url = get_image_url(prompt)
-        st.markdown(f"![]({img_url})")
-        
-        output_dict = {"id": number,
-                       "prompt": prompt,
-                       "url": img_url,
-                       "quality": qlt}
-        
-        with st.sidebar:
-            if st.button('保存'):
-                st.write('DO IT.')
-                st.session_state['text2img']['info'].append(output_dict)
-        
-                with open('prompts_dict.json', 'w', encoding='utf8') as f:
-                    json.dump(st.session_state['text2img'],
-                              f, ensure_ascii=False, indent=2)
-        
-            else:
-                st.caption('Save prompt & illustration.')
+    col0,col1 = st.sidebar.columns(2)
+    number = col0.number_input('寓言选择：', 0, df.shape[0])
+    qlt = col1.selectbox('生成质量',('一般', '差', '好'))
+    
+    fable = df['Fable'][number]
+    st.markdown(f"{fable}")
+    
+    prompt = get_prompt(fable)
+    st.caption(prompt)
+    
+    img_url = get_image_url(prompt)
+    st.markdown(f"![]({img_url})")
+    
+    output_dict = {"id": number,
+                   "prompt": prompt,
+                   "url": img_url,
+                   "quality": qlt}
+    
+    with st.sidebar:
+        if st.button('保存'):
+            st.write('DO IT.')
+            st.session_state['text2img']['info'].append(output_dict)
+    
+            with open('prompts_dict.json', 'w', encoding='utf8') as f:
+                json.dump(st.session_state['text2img'],
+                          f, ensure_ascii=False, indent=2)
+    
+        else:
+            st.caption('Save prompt & illustration.')
