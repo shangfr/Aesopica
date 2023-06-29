@@ -24,6 +24,14 @@ st.set_page_config(
     }
 )
 
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 st.markdown("<h1 style='text-align: center;'>📚 Chat With Aesop</h1>", unsafe_allow_html=True)
 
 
