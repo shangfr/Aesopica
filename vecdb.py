@@ -16,7 +16,7 @@ def init_vectordb(file_path='data_csv/books_all.csv', collection_name="fables_co
     loader = CSVLoader(file_path, encoding='utf-8')
     docs = loader.load()
     vectordb = Chroma.from_documents(
-        collection_name="fables_collection",
+        collection_name=collection_name,
         documents=docs,
         embedding=embeddings,
         persist_directory=directory)

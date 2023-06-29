@@ -10,10 +10,11 @@ import openai
 import streamlit as st
 import pandas as pd
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = st.secrets['api_key']
 
 os.environ['CURL_CA_BUNDLE'] = ''
 
+st.markdown("<h1 style='text-align: center;'>🧩 AIGC - 插图</h1>", unsafe_allow_html=True)
 
 if 'text2img' not in st.session_state:
     with open('prompts_dict.json', "r", encoding='utf8') as json_file:
