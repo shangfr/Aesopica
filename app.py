@@ -4,11 +4,12 @@ Created on Wed May 31 15:38:04 2023
 
 @author: shangfr
 """
-
+import os
 import openai
 import streamlit as st
 
 openai.api_key = st.secrets['api_key']
+os.environ["OPENAI_API_KEY"] = st.secrets['api_key']
 
 # Setting page title and header
 st.set_page_config(
