@@ -27,6 +27,16 @@ st.set_page_config(
 st.markdown("<h1 style='text-align: center;'>📚 Chat With Aesop</h1>",
             unsafe_allow_html=True)
 
+home_text = '''
+> 《伊索寓言》中收录有300多则寓言，内容大多与动物有关。书中讲述的故事简短精练，刻画出来的形象鲜明生动，每则故事都蕴含哲理，或揭露和批判社会矛盾，或抒发对人生的领悟，或总结日常生活经验。
+---
+> 📝 对话样例 👇
+> - 你好，伊索。请给我讲一个关于狐狸的寓言故事。
+> - 这个故事的寓意是什么？
+> - 我不明白，请简单说明一下这个寓意。
+
+'''
+
 
 @st.cache_resource
 def get_db_session(directory='fables_db'):
@@ -59,7 +69,7 @@ if st.sidebar.checkbox("Clear History"):
     st.session_state.messages = []
 
 if st.session_state.messages == []:
-    st.markdown('<img src="https://quantile.shangfr.site/show.jpg" width = "100%" height = "100%" alt="fable" align=center />',unsafe_allow_html=True)
+    st.markdown(home_text)
     
 only_for_chat = st.sidebar.checkbox('Only For Chat')
 
