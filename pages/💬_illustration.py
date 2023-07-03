@@ -5,7 +5,7 @@ Created on Mon Apr 24 16:31:04 2023
 @author: shangfr
 """
 import os
-import json
+import uuid
 import openai
 import streamlit as st
 import pandas as pd
@@ -18,17 +18,27 @@ st.markdown("<h1 style='text-align: center;'>🧩 AIGC - 插图</h1>",
             unsafe_allow_html=True)
 
 if 'text2img' not in st.session_state:
-    with open('prompts_dict.json', "r", encoding='utf8') as json_file:
-        st.session_state['text2img'] = json.load(json_file)
+    pictures = pd.read_csv('data_csv/pictures.csv')
+    st.session_state['text2img'] = pictures.loc[pictures["quality"] == '好']
 
-
-@st.cache_data
-def save_local(output_dict):
-    st.session_state['text2img']['info'].append(output_dict)
-    with open('prompts_dict.json', 'w', encoding='utf8') as f:
-        json.dump(st.session_state['text2img'],
-                  f, ensure_ascii=False, indent=2)
-
+@st.cache_data   
+def save_image(srs):
+    
+    import requests
+    if srs['save']:
+        return True
+    else:
+        url = srs['url']
+    
+        filename = f"static/illustration/{srs['id']}_{srs['uuid']}.jpg"
+        
+        response = requests.get(url)
+        
+        with open(filename, "wb") as f:
+            f.write(response.content)
+            
+        return True
+    
 
 @st.cache_data
 def get_fable():
@@ -91,18 +101,18 @@ col0, col1 = st.sidebar.columns(2)
 option = col0.selectbox('文生图', ('生成', '查看'))
 
 if option == '查看':
-    data_df = pd.DataFrame(st.session_state['text2img']['info'])
 
-    st.data_editor(
-        data_df,
+    edited_df = st.data_editor(
+        st.session_state['text2img'],
         column_config={
             "url": st.column_config.ImageColumn(
-                "Preview Image", help="Streamlit app preview screenshots"
+                "Preview", 
+                width="medium",
+                help="Preview Image"
             ),
             "quality": st.column_config.SelectboxColumn(
-                "App Category",
-                help="The category of the app",
-                width="medium",
+                "Quality",
+                help="The quality of the image",
                 options=[
                     "一般",
                     "差",
@@ -112,6 +122,9 @@ if option == '查看':
         },
         hide_index=True,
     )
+    st.session_state['text2img'] = edited_df
+    edited_df.to_csv('data_csv/pictures.csv',index=False)
+    edited_df.loc[edited_df["quality"] == '好','save'] = edited_df.loc[edited_df["quality"] == '好'].apply(save_image,axis=1)
 
 
 elif option == '生成':
@@ -128,10 +141,25 @@ elif option == '生成':
         container.caption(prompt)
         img_url = get_image_url(prompt)
         if img_url:
+            
+            u = uuid.uuid3(uuid.NAMESPACE_DNS, img_url)
+            uid = str(u).replace("-", "")
+            
             container.markdown(
                 f'<img src="{img_url}" width = "100%" height = "100%" alt="fable" align=center />', unsafe_allow_html=True)
             output_dict = {"id": number,
-                           "prompt": prompt,
+                           "quality": "一般",
                            "url": img_url,
-                           "quality": "一般"}
-            save_local(output_dict)
+                           "uuid":uid,
+                           "save":False,
+                           "prompt": prompt
+                           }
+            st.session_state['text2img'] = pd.concat([st.session_state['text2img'],  pd.DataFrame.from_dict([output_dict])], ignore_index=True)
+    else:
+        pictures = st.session_state['text2img']
+        fable_pictures = pictures[(pictures['id'] == number) & (pictures['quality']=='好')]
+        if len(fable_pictures)>0:
+            from PIL import Image
+            img_url = f"static/illustration/{number}_{fable_pictures['uuid'].tolist()[0]}.jpg" 
+            image = Image.open(img_url)
+            container.image(image, caption=fable_pictures['prompt'].tolist()[0])
