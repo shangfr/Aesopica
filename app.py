@@ -20,7 +20,7 @@ st.set_page_config(
     menu_items={
         'Get Help': 'https://github.com/shangfr/shangfr.github.io',
         'Report a bug': "https://github.com/shangfr/shangfr.github.io",
-        'About': "# FollowAI. 对话伊索讲寓言."
+        'About': "FollowAI. 对话伊索讲寓言."
     }
 )
 
