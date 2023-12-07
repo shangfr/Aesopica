@@ -6,7 +6,7 @@ Created on Mon Apr 24 16:31:04 2023
 """
 import streamlit as st
 from styles import sdxl_styles
-from uitls import aigc_image, table_html
+from utils import aigc_image, table_html
 
 # Setting page title and header
 st.set_page_config(
