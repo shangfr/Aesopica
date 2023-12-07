@@ -5,11 +5,13 @@ Created on Wed May 31 15:38:04 2023
 @author: shangfr
 """
 import os
-import openai
+import time
+import qianfan
 import streamlit as st
 
-openai.api_key = st.secrets['api_key']
-os.environ["OPENAI_API_KEY"] = st.secrets['api_key']
+os.environ["QIANFAN_AK"] = st.secrets["llm_baidu"]["QIANFAN_AK"]
+os.environ["QIANFAN_SK"] = st.secrets["llm_baidu"]["QIANFAN_SK"]
+
 
 # Setting page title and header
 st.set_page_config(
@@ -37,6 +39,13 @@ home_text = '''
 
 '''
 
+with st.sidebar:
+    col0,col1 = st.columns([2,1])
+    RAG = col1.checkbox('RAG')
+    stream = col1.checkbox('Stream',value=True)
+    model = col0.selectbox(
+        '模型',
+        ('ERNIE-Bot', 'ERNIE-Bot-turbo', 'ERNIE-Bot-4'))
 
 @st.cache_resource
 def get_db_session(directory='fables_db'):
@@ -49,9 +58,9 @@ def get_db_session(directory='fables_db'):
 def get_fable(prompt):
     vectordb = get_db_session()
     results = vectordb.similarity_search_with_score(prompt, k=1)
-    if results[0][1] < 0.35:
+    if results[0][1] > 0.8:
         response = results[0][0].page_content.split('\n')
-        response = '\n\n'.join(response[4:7])
+        response = '\n\n'.join(response[1:-1])
         response = response.replace("Title_CN:", "###").replace(
             "Fable_CN: ", "").replace("Moral_CN:", "`")+"`"
     else:
@@ -59,50 +68,47 @@ def get_fable(prompt):
     return response
 
 
-if "openai_model" not in st.session_state:
-    st.session_state["openai_model"] = "gpt-3.5-turbo"
+def reset():
+    st.session_state.messages = []
+    st.session_state.system_role = ""
 
 if "messages" not in st.session_state:
-    st.session_state.messages = []
+    reset()
 
-if st.sidebar.checkbox("Clear History"):
-    st.session_state.messages = []
-
+if st.sidebar.button("Clear History",use_container_width=True):
+    reset()
+    
 if st.session_state.messages == []:
     st.markdown(home_text)
-    
-only_for_chat = st.sidebar.checkbox('Only For Chat')
 
 for message in st.session_state.messages:
-    if message["role"] == 'system':
-        pass
-    else:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
-
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
 
 if prompt := st.chat_input("问一下伊索?"):
-    if not only_for_chat:
-        if fable := get_fable(prompt):
-            placeholder = st.sidebar.empty()
-            placeholder.info(f"{fable}")
-            st.session_state.messages.append(
-                {'role': 'system', 'content': '\n请参考下面的故事回答问题：\n'+fable})
-
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    
     with st.chat_message("user"):
-        st.markdown(prompt)
-
+        st.info(prompt)
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        
+    if RAG:
+        if fable := get_fable(prompt):
+            st.session_state.system_role = '\n请参考下面的故事回答问题：\n'+fable
+            with st.expander("参考"):
+                st.info(f"{fable}")
+    
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
         full_response = ""
-        for response in openai.ChatCompletion.create(
-            model=st.session_state["openai_model"],
-            messages=st.session_state.messages,
-            stream=True,
-        ):
-            full_response += response.choices[0].delta.get("content", "")
-            message_placeholder.markdown(full_response + "▌")
-        message_placeholder.markdown(full_response)
-    st.session_state.messages.append(
-        {"role": "assistant", "content": full_response})
+        for response in qianfan.ChatCompletion().do(
+                model=model,
+                messages=st.session_state.messages,
+                system=st.session_state.system_role,
+                stream=stream):
+            rr = response['result']
+            for i in range(len(rr)):
+                full_response += rr[i]
+                message_placeholder.markdown(full_response)
+                time.sleep(0.05)
+        message_placeholder.success(full_response)
+        st.session_state.messages.append({"role": "assistant", "content": full_response})
