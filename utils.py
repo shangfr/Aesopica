@@ -23,7 +23,7 @@ def get_access_token(ak,sk):
     response = requests.request("POST", url, headers=headers, data=payload)
     return response.json().get("access_token")
 
-def aigc_image(prompt,access_token, negative_prompt="", size="1024x768", steps=50, n=4):
+def aigc_image(access_token, prompt, negative_prompt="", size="1024x768", steps=50, n=4):
 
     url = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/text2image/sd_xl?access_token=" + access_token
 

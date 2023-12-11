@@ -18,10 +18,10 @@ st.set_page_config(
     page_title="Aesopica",
     page_icon="📚",
     layout="wide",
-    # initial_sidebar_state="expanded",
+    initial_sidebar_state="expanded",
     menu_items={
-        'Get Help': 'https://github.com/shangfr/shangfr.github.io',
-        'Report a bug': "https://github.com/shangfr/shangfr.github.io",
+        'Get Help': 'https://github.com/shangfr/Aesopica',
+        'Report a bug': "https://github.com/shangfr/Aesopica",
         'About': "FollowAI. 对话伊索讲寓言."
     }
 )
