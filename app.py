@@ -11,7 +11,7 @@ import streamlit as st
 
 os.environ["QIANFAN_AK"] = st.secrets["llm_baidu"]["QIANFAN_AK"]
 os.environ["QIANFAN_SK"] = st.secrets["llm_baidu"]["QIANFAN_SK"]
-
+os.environ["ZHIPUAI_API_KEY"] = st.secrets["zhipuai"]["API_KEYS"]
 
 # Setting page title and header
 st.set_page_config(
@@ -41,8 +41,8 @@ home_text = '''
 
 with st.sidebar:
     col0,col1 = st.columns([2,1])
-    RAG = col1.checkbox('RAG')
-    stream = col1.checkbox('Stream',value=True)
+    RAG = col1.checkbox('RAG',help="通过检索本地故事库，提升回答质量。")
+    stream = col1.checkbox('Stream',value=True,help="逐字显示")
     model = col0.selectbox(
         '模型',
         ('ERNIE-Bot', 'ERNIE-Bot-turbo', 'ERNIE-Bot-4'))

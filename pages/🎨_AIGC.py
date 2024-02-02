@@ -88,6 +88,9 @@ with colb:
 
 if prompt and cola.button(label='开始', use_container_width=True):
     results = aigc_image(prompt, access_token, negative_prompt, size, steps, n)
+    if results.get('error_code'):
+        st.error(results)
+        st.stop()
     img_lst = [r['b64_image'] for r in results['data']]
     html_code = table_html(n)
     ph0.empty()

@@ -67,3 +67,16 @@ def table_html(n):
             trtd = f"<tr>{td}\n{td}</tr>\n<tr>{td}\n{td}</tr>"
             html_code = f"""<table style="width: 100%; border-collapse: collapse;">{trtd}</table>"""
             return html_code
+        
+
+from zhipuai import ZhipuAI
+client = ZhipuAI() 
+
+def aigc_image_url(prompt):
+
+    response = client.images.generations(
+        model="cogview-3", 
+        prompt=prompt,
+    )
+    return response.data[0].url
+
